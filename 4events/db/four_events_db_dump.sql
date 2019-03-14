@@ -14,6 +14,7 @@
 
 CREATE TABLE public.default_event (
     event_id character(36) NOT NULL,
+    creator_id character(36) NOT NULL,
     event_type text NOT NULL,
     title text,
     partecipants_num integer NOT NULL,
