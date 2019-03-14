@@ -1,0 +1,42 @@
+{
+  "title" : {
+    "name"  : "Titolo",
+    "descr" : "Nome di fantasia attribuito all'evento"
+  },
+  "partecipantsNum" : {
+    "name"  : "Numero di partecipanti",
+    "descr" : "Numero massimo di persone che possono partecipare all'evento"
+  },
+  "deadline" : {
+    "name"  : "Termine d'iscrzione",
+    "descr" : "Data ultima per effetuare l'iscrizione all'evento"
+  },
+  "location" : {
+    "name"  : "Luogo",
+    "descr" : "Luogo che ospiterà l'evento"
+  },
+  "startDate" : {
+    "name"  : "Data ed ora d'inizio",
+    "descr" : "Istante in cui avrà inizio l'evento"
+  },
+  "duration" : {
+    "name"  : "Durata",
+    "descr" : "Durata dell'evento"
+  },
+  "cost" : {
+    "name"  : "Costo",
+    "descr" : "Quota individuale d'iscrizione"
+  },
+  "inQuota" : {
+    "name"  : "Compreso nel prezzo",
+    "descr" : "Voci di spesa incluse nella quota d'iscrizione"
+  },
+  "endDate" : {
+    "name"  : "Data ed ora conclusiva",
+    "descr" : "Istante in cui avrà termine l'evento"
+  },
+  "notes" : {
+    "name"  : "Note",
+    "descr" : "Informazioni aggiuntive"
+  }
+}
