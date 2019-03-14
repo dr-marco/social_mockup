@@ -1,5 +1,5 @@
 public class Category {
-    private String eventType;
+    private String eventType;//nome mnemonico del tipo di evento nel db
     private String nome;
     private String descrizione;
 
