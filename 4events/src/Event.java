@@ -5,19 +5,19 @@ import java.util.Calendar;
 import java.util.UUID;
 
 abstract class Event {
-    private UUID eventID; // UUID of the event stored in the DB
-    private UUID creatorID; // UUID of the user who created the event
-    private Category eventType;
-    public String title;
-    public Integer participantsNum;
-    public Calendar deadline;
-    public String location;
-    public Calendar startDate;
-    public Calendar duration; // Calendar object subsequent to startDate used to calculate a time interval
-    public Double cost;
-    public String inQuota;
-    public Calendar endDate;
-    public String notes;
+    private UUID        eventID; // UUID of the event stored in the DB
+    private UUID        creatorID; // UUID of the user who created the event
+    private Category    eventType;
+    public  String      title;
+    public  Integer     partecipantsNum;
+    public  Calendar    deadline;
+    public  String      location;
+    public  Calendar    startDate;
+    public  Calendar    duration; // Calendar object subsequent to startDate used to calculate a time interval
+    public  Double      cost;
+    public  String      inQuota;
+    public  Calendar    endDate;
+    public  String      notes;
 
 
     public Event() {
@@ -30,7 +30,7 @@ abstract class Event {
     }
 
     /**
-     * A method to get public fields of the class and its fathers
+     * A method to get public fields of a class and its fathers
      * @return an ArrayList of Strings
      */
     public ArrayList<String> getFields(){

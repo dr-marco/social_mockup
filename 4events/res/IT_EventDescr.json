@@ -38,5 +38,17 @@
   "notes" : {
     "name"  : "Note",
     "descr" : "Informazioni aggiuntive"
+  },
+  "gender" : {
+    "name"  : "Sesso",
+    "descr" : "Genere dei giocatori"
+  },
+  "ageMin" : {
+    "name"  : "Età minima",
+    "descr" : "Soglia minima d'età per partecipare"
+  },
+  "ageMax" : {
+    "name"  : "Età massima",
+    "descr" : "Soglia massima d'età per partecipare"
   }
 }
