@@ -4,10 +4,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.UUID;
 
+/**
+ * This abstract class represents generic events that will be inflected
+ * into specific categories via extending classes
+ */
 abstract class Event {
     private UUID        eventID; // UUID of the event stored in the DB
-    private UUID        creatorID; // UUID of the user who created the event
-    private Category    eventType;
+//    private UUID        creatorID; // UUID of the user who created the event
+    private String      category;
     public  String      title;
     public  Integer     partecipantsNum;
     public  Calendar    deadline;
@@ -21,12 +25,7 @@ abstract class Event {
 
 
     public Event() {
-        // TODO Generate UUID for the event
-    }
-
-    @Override
-    public String toString() {
-        return super.toString();
+        eventID = UUID.randomUUID();
     }
 
     /**
