@@ -52,3 +52,8 @@ CREATE TABLE public.categories (
 	descr text,
 	CONSTRAINT categories_pkey PRIMARY KEY (event_type)
 );
+
+--
+-- POPULATING TABLES WITH STUB VALUES FOR TESTING PURPOSES
+--
+INSERT INTO public.categories VALUES ('soccer_game', 'Partita di calcio', 'Sport più pagato al mondo che consiste nel rincorrere un pezzo di cuoio');

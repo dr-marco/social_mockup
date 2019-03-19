@@ -1,7 +1,9 @@
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.NoSuchElementException;
 
 public class Connector {
-    Connection dbConnection;
+    Connection dbConnection = null;
 
     /**
      *
@@ -24,25 +26,47 @@ public class Connector {
         }
     }
 
-    public void closeDb () {
+    /**
+     * Closes a connection to the database
+     * @throws IllegalStateException If no database is currently open
+     */
+    public void closeDb () throws IllegalStateException {
+        if (dbConnection == null) throw new IllegalStateException("ALERT: No connection to the database");
         try {
             dbConnection.close();
         } catch (java.sql.SQLException e) {
             System.out.println("ALERT: Error closing database connection!");
             e.printStackTrace();
         }
+        dbConnection = null;
     }
 
     /**
-     * Temporary test method, hardcoded shit.
-     * TODO Remove this
+     * Fetches categories currently present in the database
+     * @return  an ArrayList of String in the first column of public.categories table.
+     *          If no categories, empty ArrayList.
+     * @throws IllegalStateException If called before a database connection is established
+     * @throws NoSuchElementException If the database table public.categories is empty
      */
-    public void testConnection(){
+    public ArrayList<String> getCategories() throws IllegalStateException, NoSuchElementException {
+        if (dbConnection == null) throw new IllegalStateException("ALERT: No connection to the database");
+
+        ArrayList<String> returnAList = new ArrayList<>();
         try {
-            Statement stmt = dbConnection.createStatement();
-            ResultSet rs=stmt.executeQuery("select * from categories");
-            while(rs.next())
-                System.out.println(rs.getString(1)+"  "+rs.getString(2)+"  "+rs.getString(3));
-        } catch(Exception e){ System.out.println(e);}
+            Statement categoriesStatement = dbConnection.createStatement();
+            ResultSet rs = categoriesStatement.executeQuery("select * from categories");
+
+            if (rs.next() == false) {
+                throw new NoSuchElementException("ALERT: No categories in the database");
+            } else {
+                do {
+                    returnAList.add(rs.getString(1));
+                } while (rs.next());
+            }
+        } catch(java.sql.SQLException e) {
+            System.out.println("ALERT: Failed getting categories from database!");
+            e.printStackTrace();
+        }
+        return returnAList;
     }
 }

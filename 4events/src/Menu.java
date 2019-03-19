@@ -8,28 +8,41 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class Menu {
-
-    public Menu() {/* TODO stub constructor, remove this */};
-
-    // TODO remove this testing method
-    public void testMenu() {
-        Event game = new SoccerGame();
-        jsonTranslator eventJson = new jsonTranslator("4events/res/IT_EventDescr.json");
-
-        for (String field : game.getFields()) {
-            System.out.println(eventJson.getName(field));
-        }
-    } // TODO testing method end
+    Connector myConnector;
 
     /**
-     * Nested class that's used to store the JSONObject representation of a json file on disk.
+     *
+     * @param dbConnector a Connector to the local database
+     */
+    public Menu (Connector dbConnector) {
+        this.myConnector = dbConnector;
+    }
+
+    /**
+     * Prints name and description of available categories' fields
+     */
+    public void printFields() {
+        EventFactory factory = new EventFactory();
+        jsonTranslator eventJson = new jsonTranslator("4events/res/IT_EventDescr.json");
+
+        for (String eventType: myConnector.getCategories()) {
+            Event game = factory.createEvent(eventType);
+
+            for (String field : game.getFields()) {
+                System.out.println(eventJson.getName(field) + ":\t\t\t" + eventJson.getDescr(field));
+            }
+        }
+    }
+
+    /**
+     * Nested class that's used to store the JSONObject representation of a translation on disk.
      */
     class jsonTranslator {
         JSONObject jsonContent;
 
         /**
-         *
-         * @param jsonPath Path to the json file to be loaded
+         * Instantiate a jsonTranslator object with the given json file
+         * @param jsonPath Path to the json file to load
          */
         public jsonTranslator (String jsonPath) {
             try (InputStream inputStream = new FileInputStream(jsonPath) ) {
