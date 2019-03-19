@@ -41,4 +41,3 @@ fabric.properties
 hs_err_pid*
 
 docker/*
-res/config.json
