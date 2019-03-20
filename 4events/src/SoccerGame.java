@@ -3,7 +3,7 @@ public class SoccerGame extends Event {
     public Integer      ageMin;
     public Integer      ageMax;
 
-    public SoccerGame(){
-        super();
+    SoccerGame(String catName, String catDescription){
+        super(catName, catDescription);
     }
 }

@@ -3,33 +3,55 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Paths;
+import java.nio.file.Path;
+import java.security.SecureRandom;
 
-public class Menu {
-    Connector myConnector;
+class Menu {
+    private static final String MENU_JSON_PATH = "./4events/res/IT_MenuDescr.json";
+
+    private Connector myConnector;
+    private jsonTranslator menuTranslation;
 
     /**
      *
      * @param dbConnector a Connector to the local database
      */
-    public Menu (Connector dbConnector) {
+    Menu (Connector dbConnector) {
         this.myConnector = dbConnector;
+        Path menuJsonPath = Paths.get(MENU_JSON_PATH);
+        menuTranslation = new jsonTranslator(menuJsonPath.toString());
+    }
+
+    void printWelcome() {
+        System.out.println(menuTranslation.getTranslation("welcome"));
+    }
+
+    void printEnd() {
+        System.out.println(menuTranslation.getTranslation("end"));
+    }
+
+    void printExit() {
+        System.out.println(menuTranslation.getTranslation("exit"));
     }
 
     /**
      * Prints name and description of available categories' fields
      */
-    public void printFields() {
-        EventFactory factory = new EventFactory();
-        jsonTranslator eventJson = new jsonTranslator("4events/res/IT_EventDescr.json");
+    void printFields() {
+        System.out.println(menuTranslation.getTranslation("categoryList"));
+
+        EventFactory factory = new EventFactory(myConnector);
+        jsonTranslator eventJson = new jsonTranslator(Event.getJsonPath());
 
         for (String eventType: myConnector.getCategories()) {
             Event game = factory.createEvent(eventType);
+            System.out.println(game.getCatName() + "\n\t" + game.getCatDescription() + '\n');
 
             for (String field : game.getFields()) {
-                System.out.println(eventJson.getName(field) + ":\t\t\t" + eventJson.getDescr(field));
+                System.out.println(eventJson.getName(field) + ":\n\t" + eventJson.getDescr(field) + '\n');
             }
         }
     }
@@ -44,15 +66,21 @@ public class Menu {
          * Instantiate a jsonTranslator object with the given json file
          * @param jsonPath Path to the json file to load
          */
-        public jsonTranslator (String jsonPath) {
+        jsonTranslator (String jsonPath) {
             try (InputStream inputStream = new FileInputStream(jsonPath) ) {
                 JSONTokener tokener = new JSONTokener(inputStream);
                 jsonContent = new JSONObject(tokener);
 
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
             } catch (IOException e1) {
                 e1.printStackTrace();
+            }
+        }
+
+        String getTranslation (String key) {
+            try {
+                return jsonContent.getString(key);
+            } catch (JSONException e) {
+                return ("ALERT: Missing element in json file: " + key);
             }
         }
 
@@ -61,10 +89,9 @@ public class Menu {
          * @param field The field to search for in json file
          * @return <String> The name corresponding to field
          */
-        public String getName (String field) {
+        String getName (String field) {
             try {
-                String name = jsonContent.getJSONObject(field).getString("name");
-                return name;
+                return jsonContent.getJSONObject(field).getString("name");
             } catch (JSONException e) {
                 return ("ALERT: Missing element in json file: " + field);
             }
@@ -75,10 +102,9 @@ public class Menu {
          * @param field The field to search for in json file
          * @return <String> The description corresponding to field
          */
-        public String getDescr (String field) {
+        String getDescr (String field) {
             try {
-                String name = jsonContent.getJSONObject(field).getString("descr");
-                return name;
+                return jsonContent.getJSONObject(field).getString("descr");
             } catch (JSONException e) {
                 return ("ALERT: Missing element in json file: " + field);
             }

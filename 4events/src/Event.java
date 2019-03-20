@@ -9,9 +9,13 @@ import java.util.UUID;
  * into specific categories via extending classes
  */
 abstract class Event {
+    private static final String EVENT_JSON_PATH = "4events/res/IT_EventDescr.json";
+
     private UUID        eventID; // UUID of the event stored in the DB
 //    private UUID        creatorID; // UUID of the user who created the event
     private String      category;
+    private String      catName;
+    private String      catDescription;
     public  String      title;
     public  Integer     partecipantsNum;
     public  Calendar    deadline;
@@ -23,16 +27,25 @@ abstract class Event {
     public  Calendar    endDate;
     public  String      notes;
 
-
-    public Event() {
+    Event(String catName, String catDescription) {
+        this.catName = catName;
+        this.catDescription = catDescription;
         eventID = UUID.randomUUID();
+    }
+
+    String getCatName() { return catName; }
+
+    String getCatDescription() { return catDescription; }
+
+    static String getJsonPath () {
+        return EVENT_JSON_PATH;
     }
 
     /**
      * A method to get public fields of a class and its fathers
      * @return an ArrayList of Strings
      */
-    public ArrayList<String> getFields(){
+    ArrayList<String> getFields(){
 
         Field[] superFields = this.getClass().getSuperclass().getFields(); // Only public fields
         Field[] currentFields = this.getClass().getDeclaredFields(); // Both public and private fields

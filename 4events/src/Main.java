@@ -3,19 +3,25 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class Main {
+    private static final String CONFIG_JSON_PATH = "./4events/res/config.json";
+
     public static void main(String args[]) {
-        jsonConfigReader config = new jsonConfigReader("4events/res/config.json");
+        Path configPath = Paths.get(CONFIG_JSON_PATH);
+        jsonConfigReader config = new jsonConfigReader(configPath.toString());
         Connector myConnector = new Connector(config.getDBURL(), config.getDBUser(), config.getDBPassword());
 
         Menu menu = new Menu(myConnector);
+        menu.printWelcome();
         menu.printFields();
 
         myConnector.closeDb();
+        menu.printExit();
     }
 
     /**
@@ -28,27 +34,25 @@ public class Main {
          * Initializes the config with a given json file
          * @param jsonPath Path to the json file to load
          */
-        public jsonConfigReader (String jsonPath) {
+        jsonConfigReader (String jsonPath) {
             try (InputStream inputStream = new FileInputStream(jsonPath) ) {
                 JSONTokener tokener = new JSONTokener(inputStream);
                 jsonContent = new JSONObject(tokener);
 
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
         }
 
-        public String getDBURL () throws JSONException {
+        String getDBURL () throws JSONException {
             return jsonContent.getString("db_url");
         }
 
-        public String getDBPassword () throws JSONException {
+        String getDBPassword () throws JSONException {
             return jsonContent.getString("db_password");
         }
 
-        public String getDBUser () throws JSONException {
+        String getDBUser () throws JSONException {
             return jsonContent.getString("db_username");
         }
     }
