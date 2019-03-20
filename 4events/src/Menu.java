@@ -29,7 +29,7 @@ public class Menu {
             Event game = factory.createEvent(eventType);
 
             for (String field : game.getFields()) {
-                System.out.println(eventJson.getName(field) + ":\t\t\t" + eventJson.getDescr(field));
+                System.out.println(eventJson.getName(field) + ":\n\t" + eventJson.getDescr(field) + "\n");
             }
         }
     }
